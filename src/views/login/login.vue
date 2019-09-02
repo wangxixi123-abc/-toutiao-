@@ -4,7 +4,7 @@
 <div class="logo">
   <img src="../../assets/img/logo_index.png" alt="">
 </div>
-<el-form :model="loginForm" :rules="loginRules">
+<el-form ref="loginForm" :model="loginForm" :rules="loginRules">
 <el-form-item prop="mobile">
   <!-- 绑定手机号 -->
   <el-input v-model="loginForm.mobile" placeholder="请输入手机号"  style="margin-top:20px;"></el-input>
@@ -68,7 +68,20 @@ export default {
     login () {
       this.$refs.loginForm.validate(isOk => {
         if (isOk) {
-
+          this.$axios({
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginForm
+          }).then(result => {
+            // result.data.data.token
+            window.localStorage.setItem('user-token', result.data.data.token)
+            this.$router.push('/')
+          }).catch(() => {
+            this.$message({
+              message: '手机号或者验证码错误',
+              type: 'warning'
+            })
+          })
         }
       })
     }
