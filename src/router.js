@@ -27,6 +27,10 @@ export default new Router({
       }, {
         path: 'material',
         component: () => import('./views/material')
+      },
+      {
+        path: 'article',
+        component: () => import('./views/article/index.vue')
       }]
     }
     // {
